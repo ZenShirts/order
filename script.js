@@ -1,4 +1,3 @@
-<script>
 (function(){
   // ---- Settings you can edit ----
   const PREFIXES = ['ZS1-', 'SP1-'];       // must match what your designer outputs
@@ -205,4 +204,3 @@
     }, 1400);
   });
 })();
-</script>
