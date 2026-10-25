@@ -22,13 +22,40 @@
       <h1>Placehoder Text</h1>
 
       <form>
-        <label for="contact">Contact</label><br>
-        <input type="text" id="contact" name="contactaddr"><br><br>
-        <hr>
+        <h2>Contact</h1>
+        <label for="contact">Email Address:</label><br>
+        <input type="text" id="contact" name="contactaddr" placeholder="name@address.com"><br><br>
         <input type="checkbox" id="emailnews" name="emailnews" value="News">
         <label for="emailnews">Email me with news and offers</label>
         <input type="checkbox" id="emailupdate" name="emailupdate" value="Updates">
         <label for="emailupdate">Email me with updates about my order</label>
+        <hr>
+        <h2>Order info</h2>
+        <label for="ordercode">Order Code:</label><br>
+        <input type="text" id="ordercode" name="ordercode" required placeholder="ZS1- ..."><br>
+        <hr>
+        <h2>Shipping</h2>
+        <label for="address">Street Address:</label><br>
+        <input type="text" id="address" name="address" autocomplete="street-address" required><br>
+        <hr>
+        <h2>Billing</h2>
+        <label for="card-number">Credit Card Number</label>
+        <input 
+          id="card-number"
+          name="card-number"
+          type="tel" 
+          inputmode="numeric" 
+          autocomplete="cc-number" 
+          pattern="[0-9 ]+"
+          maxlength="19" 
+          placeholder="xxxx xxxx xxxx xxxx"
+          required
+        >
+        <br>
+        <input type="checkbox" id="baddr-shaddr" name="baddr-shaddr" value="addresses-equal" disabled>
+        <label for="baddr-shaddr">My billing address is the same as my shipping address</label><br>
+        <input type="text" id="address" name="address" autocomplete="street-address" required><br>
+        <input type="submit" id="submit" name="submit">
       </form>
     </body>
   </html>
