@@ -1,62 +1,92 @@
 <!DOCTYPE html>
-  <html lang="en-us">
-    <head>
-      <meta charset="UTF-8">
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link rel="stylesheet" href="style.css">
-      <link rel="icon" type="image/x-icon" href="favicon.ico">
-      <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <header>
-      <div>
+<html lang="en-us">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<header>
+    <div>
         <div class="brand"><a href="/home" class="home-link">ZEN<span>SHIRTS</span></a></div>
         <div class="tagline">custom apparel — no printing press required</div>
-      </div>
-      <div class="tagline" style="text-align:right;">
+    </div>
+    <div class="tagline" style="text-align:right;">
         <a href="/about">About</a> · <a href="/tshirt_design_tool">Design</a> · <a href="/order">Order and Pay</a>
-      </div>
-      <div class="brand" style="text-align:center; font-size:20px;">SALE! buy 3, cut total price in half!</div>
-    </header>
-    <body>
-      <h1>Placehoder Text</h1>
+    </div>
+    <div class="brand" style="text-align:center; font-size:20px;">SALE! buy 3, cut total price in half!</div>
+</header>
 
-      <form>
+<body>
+    <h1>Placehoder Text</h1>
+
+    <form>
+        <div class="demo-banner">Demo checkout: no payment is taken. Please don't enter a real card number. Use 4242 4242 4242 4242, any future expiry, any 3-digit CVC.</div>
         <h2>Contact</h1>
-        <label for="contact">Email Address:</label><br>
-        <input type="text" id="contact" name="contactaddr" placeholder="name@address.com"><br><br>
-        <input type="checkbox" id="emailnews" name="emailnews" value="News">
-        <label for="emailnews">Email me with news and offers</label>
-        <input type="checkbox" id="emailupdate" name="emailupdate" value="Updates">
-        <label for="emailupdate">Email me with updates about my order</label>
-        <hr>
-        <h2>Order info</h2>
-        <label for="ordercode">Order Code:</label><br>
-        <input type="text" id="ordercode" name="ordercode" required placeholder="ZS1- ..."><br>
-        <hr>
-        <h2>Shipping</h2>
-        <label for="address">Street Address:</label><br>
-        <input type="text" id="address" name="address" autocomplete="street-address" required><br>
-        <hr>
-        <h2>Billing</h2>
-        <label for="card-number">Credit Card Number</label>
-        <input 
-          id="card-number"
-          name="card-number"
-          type="tel" 
-          inputmode="numeric" 
-          autocomplete="cc-number" 
-          pattern="[0-9 ]+"
-          maxlength="19" 
-          placeholder="xxxx xxxx xxxx xxxx"
-          required
-        >
-        <br>
-        <input type="checkbox" id="baddr-shaddr" name="baddr-shaddr" value="addresses-equal" disabled>
-        <label for="baddr-shaddr">My billing address is the same as my shipping address</label><br><br>
-        <label for="billing-address">Billing address:</label><br>
-        <input type="text" id="billing-address" name="billing-address" autocomplete="street-address" required><br><br>
-        <input type="submit" id="submit" name="submit">
-      </form>
-    </body>
-  </html>
+            <label for="contact">Email Address:</label><br>
+            <input type="text" id="contact" name="contactaddr" placeholder="name@address.com"><br><br>
+            <input type="checkbox" id="emailnews" name="emailnews" value="News">
+            <label for="emailnews">Email me with news and offers</label>
+            <input type="checkbox" id="emailupdate" name="emailupdate" value="Updates">
+            <label for="emailupdate">Email me with updates about my order</label>
+            <hr>
+            <h2>Order info</h2>
+            <label for="ordercode">Order Code:</label>
+            <div class="code-error" id="codeError" role="alert" hidden></div>
+
+            <div class="order-summary" id="orderSummary" hidden>
+                <div class="os-preview">
+                    <canvas id="shirtCanvas" width="500" height="620"></canvas>
+                    <div class="os-tabs">
+                        <button type="button" id="osFront" class="active">Front</button>
+                        <button type="button" id="osBack">Back</button>
+                    </div>
+                </div>
+                <div class="os-details">
+                    <h3>Your shirt</h3>
+                    <div class="os-line"><span>Color</span><span id="osColor"></span></div>
+                    <div class="os-line"><span>Size</span><span id="osSize"></span></div>
+                    <div class="os-line"><span>Quantity</span><span id="osQty"></span></div>
+                    <div class="os-line" id="osNotesRow" hidden><span>Notes</span><span id="osNotes"></span></div>
+                    <hr>
+                    <div class="os-line"><span>Subtotal</span><span id="osSub"></span></div>
+                    <div class="os-line sale" id="osSaleRow" hidden><span>Sale: buy 3, half off</span><span id="osSale"></span></div>
+                    <div class="os-line"><span>Shipping</span><span id="osShip"></span></div>
+                    <div class="os-line total"><span>Total</span><span id="osTotal"></span></div>
+                </div>
+            </div><br>
+            <input type="text" id="ordercode" name="ordercode" required placeholder="ZS1- ..."><br>
+            <hr>
+            <h2>Shipping</h2>
+            <label for="address">Street Address:</label><br>
+            <input type="text" id="address" name="address" autocomplete="street-address" required><br>
+            <hr>
+            <h2>Billing</h2>
+            <label for="card-number">Credit Card Number</label>
+            <input id="card-number" name="card-number" type="tel" inputmode="numeric" autocomplete="cc-number" pattern="[0-9 ]+" maxlength="19" placeholder="xxxx xxxx xxxx xxxx" required>
+            <label for="card-exp">Expiry (MM/YY)</label>
+            <input id="card-exp" name="card-exp" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/YY" maxlength="5" required>
+            <label for="card-cvc">CVC</label>
+            <input id="card-cvc" name="card-cvc" inputmode="numeric" autocomplete="cc-csc" placeholder="123" maxlength="4" required>
+            <br>
+            <input type="checkbox" id="baddr-shaddr" name="baddr-shaddr" value="addresses-equal">
+            <label for="baddr-shaddr">My billing address is the same as my shipping address</label><br><br>
+            <label for="billing-address">Billing address:</label><br>
+            <input type="text" id="billing-address" name="billing-address" autocomplete="street-address" required><br><br>
+            <input type="submit" id="submit" name="submit" value="Place order">
+            <section id="confirmation" hidden>
+                <h2>Order placed (demo)</h2>
+                <p>Thanks! Your order number is <b id="confNum"></b>.</p>
+                <p id="confDetail"></p>
+                <p><i>No payment was taken and nothing was shipped. This is a practice checkout.</i></p>
+                <button type="button" onclick="location.reload()">Start another order</button>
+                <p><em>OR</em></p><button type="button" onclick="window.location.href='/tshirt_design_tool">Design another t-shirt</button>
+            </section>
+    </form>
+    <script src="script.js"></script>
+</body>
+
+</html>
