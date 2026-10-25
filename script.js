@@ -12,6 +12,9 @@
   const COLOR_NAMES = {'#FFFFFF':'White','#1A1A1A':'Black','#C1440E':'Rust','#2E4A6B':'Denim Blue','#6B7A4F':'Olive','#D8D2C2':'Chalk','#7B2D3E':'Wine','#E8C547':'Mustard'};
 
   const $ = id => document.getElementById(id);
+  const NEEDED = ['shirtCanvas','codeError','orderSummary','osFront','osBack','osColor','osSize','osQty','osNotesRow','osNotes','osSub','osSaleRow','osSale','osShip','osTotal','formError','confirmation','confNum','confDetail'];
+  const missing = NEEDED.filter(id => !document.getElementById(id));
+  if(missing.length) console.warn('Missing element ids:', missing.join(', '));
   const money = n => '$' + n.toFixed(2);
   const canvas = $('shirtCanvas'), ctx = canvas.getContext('2d');
   const W = canvas.width, H = canvas.height;
@@ -139,8 +142,10 @@
     decoded = null; $('orderSummary').hidden = true;
     if(!raw){ showCodeError(''); return; }
     const r = parseCode(raw);
-    if(r.error){ showCodeError(showErrors ? r.error : ''); return; }
-    loadImages(r.data).then(() => { decoded = r.data; showCodeError(''); showSummary(); });
+    if(r.error){ showCodeError(r.error); return; }   // always show while debugging
+    loadImages(r.data)
+      .then(() => { decoded = r.data; showCodeError(''); showSummary(); })
+      .catch(err => { decoded = null; showCodeError('Debug: ' + err.message); console.error(err); });
   }
   $('ordercode').addEventListener('input',  () => tryDecode(false));
   $('ordercode').addEventListener('change', () => tryDecode(true));
